@@ -57,3 +57,10 @@ o también puede ver quién es el que compra/vende para negociar directo.
 ## Próximo paso
 Decidir cuál idea madurar primero y crear su brief.md en proyectos/ con la skill
 crear-brief.
+
+## Convertida a proyecto(s)
+- 2026-09-01: [[proyectos/marketplace_insumos_b2b/brief]] (Idea 1)
+- 2026-09-01: [[proyectos/paquetes_viaje_orlando/brief]] (Idea 2)
+
+Las 3 "ideas nuevas propuestas" no se convirtieron — son de una sola línea,
+sin desarrollo propio. Quedan pendientes para cuando quieras madurarlas.
