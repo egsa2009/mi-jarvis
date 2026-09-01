@@ -26,7 +26,7 @@ Vendty, Dixeb), no de conexión. Posible hueco real de mercado.
 
 ## Próximos pasos
 - [x] Definir el alcance exacto del MVP (ver "Alcance del MVP" abajo)
-- [ ] Diseñar el flujo de pago de comisión (cómo se cobra al cerrarse una venta)
+- [x] Diseñar el flujo de pago de comisión (ver "Flujo de pago de comisión" abajo)
 - [ ] Diseñar el flujo de asignación y pago fijo a repartidores independientes
 - [ ] Reclutar un grupo piloto de proveedores y compradores en una zona/ciudad
       para probar el MVP
@@ -70,3 +70,25 @@ negociar directo con quien compra/vende.
 - **Lógica de matching del MVP:** match automático por categoría + zona de
   reparto (sin notificaciones activas todavía — eso queda para una iteración
   posterior).
+
+### Flujo de pago de comisión (2026-09-01)
+- **Quién paga la comisión:** el proveedor/vendedor — se descuenta de lo que
+  recibe, igual que Mercado Libre o Amazon. El comprador paga el precio
+  pactado sin recargos.
+- **Pasarela del MVP:** Mercado Pago, usando su funcionalidad de split
+  payment para marketplace (`marketplace_fee` en Checkout Pro /
+  `application_fee` en Checkout API). El comprador paga a través de la
+  plataforma, Mercado Pago retiene la comisión del marketplace
+  automáticamente y transfiere el resto al proveedor — sin cálculo manual.
+  Comisión de Mercado Pago en Colombia: ~3.49% + IVA por pago con tarjeta
+  (se suma al costo, hay que tenerlo en cuenta al definir el % propio).
+- **Por qué no Nequi/Daviplata/Llave en el MVP:** tienen APIs de cobro pero
+  sin split payment nativo — no reparten automáticamente entre comprador y
+  proveedor descontando la comisión. Llave/Bre-B es solo transferencia
+  persona a persona. Quedan como opción futura (posiblemente vía un
+  intermediario tipo Wava) si se busca reducir el costo de Mercado Pago o
+  dar una opción de pago más familiar en Colombia — no se descartan, solo
+  no arrancan en el MVP.
+
+Pendiente definir: el % exacto de comisión, y en qué momento del flujo se
+considera "venta cerrada" para poder liquidar al proveedor.
