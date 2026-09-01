@@ -25,9 +25,7 @@ Vendty, Dixeb), no de conexión. Posible hueco real de mercado.
       matching simple) probado con un grupo piloto
 
 ## Próximos pasos
-- [ ] Definir el alcance exacto del MVP: qué categorías de insumos entran desde
-      el día 1, qué datos sube cada lado (qué ofrece/necesita, ubicación, zona
-      de reparto), y cómo se ve el matching simple
+- [x] Definir el alcance exacto del MVP (ver "Alcance del MVP" abajo)
 - [ ] Diseñar el flujo de pago de comisión (cómo se cobra al cerrarse una venta)
 - [ ] Diseñar el flujo de asignación y pago fijo a repartidores independientes
 - [ ] Reclutar un grupo piloto de proveedores y compradores en una zona/ciudad
@@ -59,3 +57,16 @@ logística sin flota propia.
 
 Pendiente definir: si el repartidor ve solo el pedido o también puede
 negociar directo con quien compra/vende.
+
+### Alcance del MVP (2026-09-01)
+- **Categorías del piloto (3):** café/bebidas al por mayor, panadería/
+  repostería, insumos de cocina/restaurante en general. El resto de
+  categorías queda para después de validar el piloto, aunque el modelo
+  de datos ya es multi-categoría desde el diseño.
+- **Datos al publicar una oferta o necesidad:** categoría, descripción libre,
+  precio o rango de precio, ubicación y zona de reparto. (Cantidad mínima de
+  pedido queda fuera del MVP — se puede negociar directo entre las partes por
+  ahora.)
+- **Lógica de matching del MVP:** match automático por categoría + zona de
+  reparto (sin notificaciones activas todavía — eso queda para una iteración
+  posterior).
