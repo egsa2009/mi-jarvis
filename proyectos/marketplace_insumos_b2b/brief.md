@@ -27,7 +27,8 @@ Vendty, Dixeb), no de conexión. Posible hueco real de mercado.
 ## Próximos pasos
 - [x] Definir el alcance exacto del MVP (ver "Alcance del MVP" abajo)
 - [x] Diseñar el flujo de pago de comisión (ver "Flujo de pago de comisión" abajo)
-- [ ] Diseñar el flujo de asignación y pago fijo a repartidores independientes
+- [x] Diseñar el flujo de pago a repartidores (ver "Flujo de pago a
+      repartidores" abajo) — falta definir la asignación de pedidos
 - [ ] Reclutar un grupo piloto de proveedores y compradores en una zona/ciudad
       para probar el MVP
 - [ ] Construir el MVP
@@ -54,9 +55,6 @@ logística sin flota propia.
 - **Validación de demanda:** MVP funcional mínimo (formulario + matching
   simple) probado con un grupo piloto, en vez de un piloto 100% manual sin
   construir nada.
-
-Pendiente definir: si el repartidor ve solo el pedido o también puede
-negociar directo con quien compra/vende.
 
 ### Alcance del MVP (2026-09-01)
 - **Categorías del piloto (3):** café/bebidas al por mayor, panadería/
@@ -92,3 +90,22 @@ negociar directo con quien compra/vende.
 
 Pendiente definir: el % exacto de comisión, y en qué momento del flujo se
 considera "venta cerrada" para poder liquidar al proveedor.
+
+### Flujo de pago a repartidores (2026-09-01)
+- **Quién paga el delivery:** el comprador — se suma a lo que paga, como en
+  Rappi/Uber Eats. El proveedor solo asume la comisión del marketplace, no
+  el costo de delivery.
+- **Cuándo se le paga al repartidor:** liquidación periódica (semanal), no
+  pago inmediato por entrega. Se acumulan las entregas de la semana y se
+  liquidan de una vez — evita tener que construir un flujo de pago
+  transaccional por cada entrega desde el MVP.
+- **Medio de la liquidación:** el repartidor elige entre Nequi, Daviplata o
+  cuenta bancaria. Más flexible para ellos, pero implica soportar varios
+  métodos de pago de salida desde el inicio (no requiere split payment
+  automático porque es un lote semanal, no por transacción — se puede hacer
+  como transferencias manuales o por lote en el MVP).
+
+Pendiente definir: cómo se asignan los pedidos entre repartidores
+disponibles (por cercanía, orden de llegada, u otro criterio), y si el
+repartidor ve solo el pedido asignado o también puede negociar directo con
+quien compra/vende.
