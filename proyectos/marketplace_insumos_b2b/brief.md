@@ -32,7 +32,7 @@ Vendty, Dixeb), no de conexión. Posible hueco real de mercado.
 - [ ] Reclutar un grupo piloto de proveedores y compradores en una zona/ciudad
       para probar el MVP
 - [x] Backend del MVP (Supabase) — ver "Infraestructura del MVP" abajo
-- [ ] Frontend del MVP (web app en Vercel)
+- [x] Frontend del MVP (web app en Vercel) — https://marketplace-insumos-b2b.vercel.app
 - [ ] Integrar Mercado Pago (fase posterior al primer piloto funcional)
 
 ## Lo que ya existe en el vault
@@ -126,6 +126,24 @@ quien compra/vende.
 - **Pagos:** Mercado Pago se integra en una fase posterior al primer
   piloto funcional — no bloquea probar el matching. El pedido puede
   marcarse "pagado manualmente" (campo `pagado_manual`) mientras tanto.
-- **Próximo paso técnico:** construir el frontend (formulario de
-  publicación, listado con match por categoría+zona, flujo de cerrar
-  pedido, vista de repartidor).
+- **Frontend:** desplegado en https://marketplace-insumos-b2b.vercel.app
+  (nombre de producto: "Enlace"). Login/registro con Supabase Auth
+  (email+contraseña), onboarding de perfil (nombre/rol/teléfono/zona),
+  listado de publicaciones con filtros por categoría/tipo/zona, modal de
+  nueva publicación, modal de cerrar pedido (calcula comisión 5% en el
+  momento), vista de "Mis pedidos" (comprador y proveedor), vista de
+  "Repartos" para repartidores (toma pedidos abiertos con delivery en su
+  zona). Código en `C:\proyectos\JARVIS_EGSA\marketplace-insumos-b2b`
+  (no versionado en git todavía).
+- **Probado manualmente:** registro, confirmación de email, onboarding de
+  perfil, publicar una oferta, listado con filtros, modo oscuro. **No
+  probado todavía:** el flujo completo de comprador cerrando un pedido y
+  repartidor tomando un reparto (bloqueado por el rate limit de envío de
+  emails del plan gratuito de Supabase al crear una segunda cuenta de
+  prueba) — validar esto con las primeras cuentas reales del piloto.
+- **Bug encontrado y corregido durante las pruebas:** la política RLS de
+  `pedidos` no dejaba a los repartidores ver pedidos abiertos sin asignar
+  (solo veían pedidos donde ya eran parte). Se agregó una policy adicional
+  para pedidos abiertos con `repartidor_id` nulo y `tarifa_delivery > 0`.
+- **% de comisión usado en el MVP:** 5% (hardcodeado en el frontend por
+  ahora, pendiente hacerlo configurable).
