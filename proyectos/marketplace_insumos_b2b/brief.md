@@ -31,7 +31,9 @@ Vendty, Dixeb), no de conexión. Posible hueco real de mercado.
       repartidores" abajo) — falta definir la asignación de pedidos
 - [ ] Reclutar un grupo piloto de proveedores y compradores en una zona/ciudad
       para probar el MVP
-- [ ] Construir el MVP
+- [x] Backend del MVP (Supabase) — ver "Infraestructura del MVP" abajo
+- [ ] Frontend del MVP (web app en Vercel)
+- [ ] Integrar Mercado Pago (fase posterior al primer piloto funcional)
 
 ## Lo que ya existe en el vault
 - [[../../inbox/2026-08-30_ideas_negocio_marketplace|2026-08-30_ideas_negocio_marketplace]]
@@ -109,3 +111,21 @@ Pendiente definir: cómo se asignan los pedidos entre repartidores
 disponibles (por cercanía, orden de llegada, u otro criterio), y si el
 repartidor ve solo el pedido asignado o también puede negociar directo con
 quien compra/vende.
+
+### Infraestructura del MVP (2026-09-02)
+- **Formato:** web app responsive (no apps nativas) — desplegable en Vercel,
+  igual que jarvis-capture.
+- **Backend:** Supabase (proyecto `marketplace-insumos-b2b`, org
+  `egsa2009's Org`, región us-east-1, tier gratuito $0/mes).
+  URL: `https://mrykqbtnxdqldtiwzeex.supabase.co`
+- **Esquema aplicado:** tablas `perfiles` (rol: proveedor/comprador/
+  repartidor), `publicaciones` (oferta/necesidad por categoría + zona),
+  `pedidos` (conecta publicación + comprador + proveedor + repartidor +
+  montos), `liquidaciones_repartidor` (registro semanal). Row Level
+  Security activo en las 4 tablas.
+- **Pagos:** Mercado Pago se integra en una fase posterior al primer
+  piloto funcional — no bloquea probar el matching. El pedido puede
+  marcarse "pagado manualmente" (campo `pagado_manual`) mientras tanto.
+- **Próximo paso técnico:** construir el frontend (formulario de
+  publicación, listado con match por categoría+zona, flujo de cerrar
+  pedido, vista de repartidor).
