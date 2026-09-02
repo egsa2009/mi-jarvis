@@ -135,15 +135,26 @@ quien compra/vende.
   "Repartos" para repartidores (toma pedidos abiertos con delivery en su
   zona). Código en `C:\proyectos\JARVIS_EGSA\marketplace-insumos-b2b`
   (no versionado en git todavía).
-- **Probado manualmente:** registro, confirmación de email, onboarding de
-  perfil, publicar una oferta, listado con filtros, modo oscuro. **No
-  probado todavía:** el flujo completo de comprador cerrando un pedido y
-  repartidor tomando un reparto (bloqueado por el rate limit de envío de
-  emails del plan gratuito de Supabase al crear una segunda cuenta de
-  prueba) — validar esto con las primeras cuentas reales del piloto.
-- **Bug encontrado y corregido durante las pruebas:** la política RLS de
-  `pedidos` no dejaba a los repartidores ver pedidos abiertos sin asignar
-  (solo veían pedidos donde ya eran parte). Se agregó una policy adicional
-  para pedidos abiertos con `repartidor_id` nulo y `tarifa_delivery > 0`.
+- **Probado manualmente de punta a punta (2026-09-02):** registro y login,
+  onboarding de perfil, publicar una oferta, listado con filtros, cerrar un
+  pedido como comprador (con cálculo de comisión y tarifa de delivery),
+  repartidor tomando un reparto disponible, modo oscuro. Los 3 roles
+  (proveedor, comprador, repartidor) validados end-to-end.
+- **Confirmación por correo desactivada** en Supabase Auth (Authentication →
+  Providers → Email → "Confirm email" apagado) — el plan gratuito tiene un
+  rate limit muy bajo de envío de emails que bloqueaba el registro incluso
+  con una sola cuenta nueva por hora. Para un piloto controlado, registro
+  instantáneo sin confirmación es aceptable; revisar si conviene reactivarlo
+  (con SMTP propio) al escalar más allá del piloto.
+- **2 bugs de RLS encontrados y corregidos durante las pruebas** (mismo
+  patrón en ambos: una policy exigía que el usuario ya fuera parte del
+  pedido, pero un repartidor "tomando" un pedido nuevo nunca lo es todavía):
+  1. SELECT de `pedidos` no dejaba a los repartidores *ver* pedidos abiertos
+     sin asignar — se agregó policy para pedidos con `repartidor_id` nulo y
+     `tarifa_delivery > 0`.
+  2. UPDATE de `pedidos` no dejaba a los repartidores *tomar* un pedido
+     (el update se ejecutaba sin error pero sin efecto) — se agregó policy
+     de UPDATE con la misma condición más `with check (repartidor_id =
+     auth.uid())`.
 - **% de comisión usado en el MVP:** 5% (hardcodeado en el frontend por
   ahora, pendiente hacerlo configurable).
