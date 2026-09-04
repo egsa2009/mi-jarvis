@@ -42,6 +42,40 @@ Vendty, Dixeb), no de conexión. Posible hueco real de mercado.
   Loggro, Vendty, Dixeb, App La Compra en Colombia/LatAm) y el refinamiento
   de la capa de delivery con repartidores independientes.
 
+## Búsqueda por producto y lista de compra comparativa (2026-09-02)
+Funcionalidad nueva agregada tras el MVP inicial: el comprador indica qué
+producto necesita, la app busca proveedores en su zona que lo ofrecen y los
+ordena del precio más bajo al más alto. También puede armar una lista de
+varios productos (con cantidad) y ver el costo total estimado por cada
+proveedor que cubra parte o todo de la lista, ordenado de más barato a más
+caro.
+
+**Decisiones:**
+- **Modelo de producto:** catálogo fijo por categoría (tabla `productos`,
+  15 productos sembrados en las 3 categorías del MVP) en vez de texto libre
+  — el proveedor elige el producto de una lista al publicar, garantiza
+  match y orden por precio confiables.
+- **Precio para ordenar/comparar:** se mantiene el rango min-max (para que
+  ambos lados negocien), pero se agregó `precio_promedio` como columna
+  generada `(min+max)/2` — ese valor es el que se usa para ordenar
+  publicaciones y sumar totales en la lista de compra.
+- **Validación de rango contra el mercado:** al publicar, la app compara el
+  precio promedio ingresado contra el promedio de todas las ofertas activas
+  del mismo producto y avisa (sin bloquear) si se desvía más de 40% del
+  promedio — probado y funciona (detectó correctamente un caso 111% por
+  encima).
+- **Lista de compra:** cada comprador tiene una lista persistente
+  (`listas_compra` + `lista_items`) donde agrega producto + cantidad. La
+  comparación busca ofertas activas en la zona del comprador para cada
+  producto de la lista, toma el precio más barato por producto y proveedor,
+  suma cantidad×precio_promedio, y muestra cuántos de los N productos cubre
+  cada proveedor — ordenado del total más barato al más caro. Probado de
+  punta a punta y funciona correctamente.
+- **Esquema:** `productos` (catálogo, RLS solo lectura), `publicaciones`
+  ahora referencia `producto_id` (antes solo categoría + texto libre;
+  `descripcion` pasó a ser notas opcionales), `listas_compra` y
+  `lista_items` (RLS: cada comprador solo ve/edita las suyas).
+
 ## Notas
 Modelo de 3 lados: proveedor de insumo / negocio que necesita / repartidor
 independiente — similar al patrón que usan Rappi o Uber para resolver
